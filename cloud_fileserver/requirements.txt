@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+langchain-community
+langchain-openai
+faiss-cpu            # vector store
+tqdm                 # for optional index_files.py progress bar
