@@ -41,9 +41,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
           _H('Security'),
           _P('We use industry-standard security measures. No method is 100% secure.'),
           _H('Changes'),
-          _P('We may update this policy. Material changes will be posted in-app and on our website. Continued use constitutes acceptance.'),
+          _P('We may update this policy. Material changes will be posted in-app and on this page. Continued use constitutes acceptance.'),
           _H('Contact'),
-          _P('For privacy questions or requests, contact: depthnoteapp@gmail.com'),
+          _P('For privacy questions or requests, contact: Bisan Idrees (Israel) – gmaildepthnoteapp@gmail.com'),
         ],
       ),
     );
