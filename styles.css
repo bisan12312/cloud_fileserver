@@ -307,13 +307,13 @@ section {
 .screenshot-grid {
   margin-top: 2.5rem;
   display: grid;
-  gap: 1.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
 .screenshot-card {
   margin: 0;
-  padding: 1.25rem;
+  padding: 1.5rem;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   background: var(--surface-strong);
@@ -323,9 +323,48 @@ section {
   gap: 1rem;
 }
 
+.screenshot-link {
+  display: block;
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.screenshot-link::after {
+  content: "View full size";
+  position: absolute;
+  inset: auto 1rem 1rem auto;
+  background: rgba(15, 23, 42, 0.75);
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  transform: translateY(6px);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.screenshot-link:hover::after,
+.screenshot-link:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.screenshot-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
 .screenshot-card img {
+  width: 100%;
   border-radius: var(--radius-md);
   box-shadow: 0 14px 32px rgba(15, 23, 42, 0.18);
+  transition: transform 0.3s ease;
+}
+
+.screenshot-link:hover img,
+.screenshot-link:focus-visible img {
+  transform: scale(1.02);
 }
 
 .screenshot-card figcaption {
