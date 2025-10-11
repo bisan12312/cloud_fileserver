@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64" role="img" aria-labelledby="title">
+  <title id="title">DepthNote logo</title>
+  <defs>
+    <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e90ff" />
+      <stop offset="100%" stop-color="#7f5cff" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="8" width="64" height="48" rx="14" fill="url(#lg)" />
+  <path d="M24 24h10c7 0 12 5 12 12s-5 12-12 12h-5v6h-5V24zm10 20c3.9 0 7-3.1 7-7s-3.1-7-7-7h-5v14h5zm22-20h6v34h-6V24z" fill="#f5f7ff" />
+  <text x="84" y="42" font-family="'Segoe UI', 'Helvetica Neue', sans-serif" font-size="28" font-weight="600" fill="#1b2559" letter-spacing="0.5">
+    DepthNote
+  </text>
+</svg>

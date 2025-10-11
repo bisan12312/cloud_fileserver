@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">DepthNote workspace mock</title>
+  <desc id="desc">Placeholder illustration showing app workspace</desc>
+  <defs>
+    <linearGradient id="panel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e6ecff" />
+    </linearGradient>
+  </defs>
+  <rect width="960" height="600" rx="48" fill="#0f172a" />
+  <rect x="48" y="48" width="864" height="504" rx="32" fill="url(#panel)" />
+  <rect x="48" y="48" width="864" height="64" rx="28" fill="#1e293b" opacity="0.8" />
+  <circle cx="96" cy="80" r="12" fill="#38bdf8" />
+  <circle cx="140" cy="80" r="12" fill="#7c3aed" />
+  <circle cx="184" cy="80" r="12" fill="#fcd34d" />
+  <rect x="96" y="140" width="280" height="360" rx="24" fill="#f8fafc" />
+  <rect x="120" y="164" width="232" height="56" rx="12" fill="#0f172a" opacity="0.12" />
+  <rect x="120" y="236" width="232" height="32" rx="10" fill="#1e40af" opacity="0.35" />
+  <rect x="120" y="284" width="232" height="32" rx="10" fill="#1e40af" opacity="0.25" />
+  <rect x="120" y="332" width="232" height="32" rx="10" fill="#1e40af" opacity="0.18" />
+  <rect x="420" y="164" width="460" height="240" rx="24" fill="#f1f5f9" stroke="#dbeafe" stroke-width="4" />
+  <path d="M456 212h160c48 0 80 32 80 80s-32 80-80 80h-52v52h-60V212zm160 124c30 0 52-22 52-52s-22-52-52-52h-60v104h60zm124-124h52v256h-52V212z" fill="#1d4ed8" opacity="0.85" />
+  <path d="M420 440h240" stroke="#94a3b8" stroke-width="10" stroke-linecap="round" opacity="0.6" />
+  <path d="M420 480h320" stroke="#94a3b8" stroke-width="10" stroke-linecap="round" opacity="0.4" />
+</svg>

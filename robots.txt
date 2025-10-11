@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bisan12312.github.io/cloud_fileserver/sitemap.xml

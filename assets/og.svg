@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">DepthNote — Handwritten answers with AI</title>
+  <desc id="desc">Open graph banner with DepthNote tagline and gradient background</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e90ff" />
+      <stop offset="45%" stop-color="#675dff" />
+      <stop offset="100%" stop-color="#9d45ff" />
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.85)" />
+      <stop offset="100%" stop-color="rgba(235,240,255,0.9)" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect x="120" y="150" width="960" height="330" rx="28" fill="url(#card)" stroke="rgba(255,255,255,0.35)" stroke-width="4" />
+  <text x="180" y="280" fill="#1b2559" font-size="72" font-family="'Segoe UI', 'Helvetica Neue', sans-serif" font-weight="700">DepthNote</text>
+  <text x="180" y="360" fill="#2a2f57" font-size="36" font-family="'Segoe UI', 'Helvetica Neue', sans-serif">Handwritten answers with AI</text>
+  <text x="180" y="420" fill="#3b3f77" font-size="28" font-family="'Segoe UI', 'Helvetica Neue', sans-serif">Type or write; get steps &amp; solutions in a handwriting style.</text>
+  <g transform="translate(780 215)">
+    <rect width="240" height="180" rx="24" fill="#1e90ff" opacity="0.9" />
+    <path d="M48 48h72c28 0 48 20 48 48s-20 48-48 48h-24v24H48V48zm72 72c13.2 0 24-10.8 24-24s-10.8-24-24-24H72v48h48zm72-72h24v144h-24V48z" fill="#f4f6ff" />
+  </g>
+</svg>
