@@ -33,6 +33,7 @@
         </a>
         <nav class="nav-links" aria-label="Primary">
           <a href="#features">Features</a>
+          <a href="#screenshots">Screenshots</a>
           <a href="#how">How it works</a>
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
@@ -56,13 +57,72 @@
           </p>
           <div class="cta-group">
             <a class="button" href="#soon" rel="noopener">Get on Microsoft Store</a>
-            <a class="button secondary" href="#how">See how it works</a>
+            <a class="button secondary" href="#screenshots">See how it looks</a>
           </div>
           <p class="hero-note">Works great with pen &amp; keyboard across Windows, Android, and iOS.</p>
           <p id="soon" class="hero-note">Microsoft Store listing is coming soon—mobile builds are out now, and support can share the latest links.</p>
         </div>
         <div class="hero-media">
           <img src="assets/screen1.svg" alt="DepthNote workspace showing handwritten AI solution" />
+        </div>
+      </section>
+      <!-- Screenshots -->
+      <section class="container" id="screenshots">
+        <h2>See DepthNote in action</h2>
+        <p class="hero-note">Walk through the inking workspace, equation tools, and export options.</p>
+        <div class="screenshot-grid" role="list">
+          <figure class="screenshot-card" role="listitem">
+            <button
+              class="screenshot-button"
+              type="button"
+              data-full="assets/screenshots/app-screen-1.png"
+              data-caption="Browse your recent notebooks and jump back into open questions."
+              data-alt="DepthNote home screen showing recent handwritten notes."
+              aria-label="View larger screenshot: DepthNote home screen showing recent handwritten notes."
+            >
+              <img src="assets/screenshots/app-screen-1.png" alt="DepthNote home screen showing recent handwritten notes." />
+            </button>
+            <figcaption>Browse your recent notebooks and jump back into open questions.</figcaption>
+          </figure>
+          <figure class="screenshot-card" role="listitem">
+            <button
+              class="screenshot-button"
+              type="button"
+              data-full="assets/screenshots/app-screen-2.png"
+              data-caption="Follow step-by-step reasoning laid out in a clean handwriting style."
+              data-alt="DepthNote workspace with handwritten steps solving an equation."
+              aria-label="View larger screenshot: DepthNote workspace with handwritten steps solving an equation."
+            >
+              <img src="assets/screenshots/app-screen-2.png" alt="DepthNote workspace with handwritten steps solving an equation." />
+            </button>
+            <figcaption>Follow step-by-step reasoning laid out in a clean handwriting style.</figcaption>
+          </figure>
+          <figure class="screenshot-card" role="listitem">
+            <button
+              class="screenshot-button"
+              type="button"
+              data-full="assets/screenshots/app-screen-3.png"
+              data-caption="Switch between AI tools, ink colors, and layout controls without losing focus."
+              data-alt="DepthNote interface highlighting AI tools and handwriting controls."
+              aria-label="View larger screenshot: DepthNote interface highlighting AI tools and handwriting controls."
+            >
+              <img src="assets/screenshots/app-screen-3.png" alt="DepthNote interface highlighting AI tools and handwriting controls." />
+            </button>
+            <figcaption>Switch between AI tools, ink colors, and layout controls without losing focus.</figcaption>
+          </figure>
+          <figure class="screenshot-card" role="listitem">
+            <button
+              class="screenshot-button"
+              type="button"
+              data-full="assets/screenshots/app-screen-4.png"
+              data-caption="Export polished solutions and share them instantly with classmates."
+              data-alt="DepthNote export dialog for sharing handwritten solutions."
+              aria-label="View larger screenshot: DepthNote export dialog for sharing handwritten solutions."
+            >
+              <img src="assets/screenshots/app-screen-4.png" alt="DepthNote export dialog for sharing handwritten solutions." />
+            </button>
+            <figcaption>Export polished solutions and share them instantly with classmates.</figcaption>
+          </figure>
         </div>
       </section>
       <!-- Features -->
@@ -177,6 +237,59 @@
         <small>© 2024 DepthNote. All rights reserved.</small>
       </div>
     </footer>
+    <dialog class="lightbox" id="screenshot-lightbox" aria-label="Screenshot preview">
+      <button class="lightbox-close" type="button" aria-label="Close screenshot preview">✕</button>
+      <img src="" alt="" />
+      <p class="lightbox-caption"></p>
+    </dialog>
+    <script>
+      const dialog = document.getElementById("screenshot-lightbox");
+      if (dialog) {
+        const previewImage = dialog.querySelector("img");
+        const caption = dialog.querySelector(".lightbox-caption");
+        const closeButton = dialog.querySelector(".lightbox-close");
+
+        document.querySelectorAll(".screenshot-button").forEach((button) => {
+          button.addEventListener("click", () => {
+            const full = button.getAttribute("data-full");
+            const description = button.getAttribute("data-caption");
+            const alt = button.getAttribute("data-alt");
+
+            if (previewImage && full) {
+              previewImage.src = full;
+              previewImage.alt = alt || "";
+            }
+
+            if (caption) {
+              caption.textContent = description || "";
+            }
+
+            if (typeof dialog.showModal === "function") {
+              dialog.showModal();
+            } else if (full) {
+              window.open(full, "_blank", "noopener");
+            }
+          });
+        });
+
+        if (closeButton) {
+          closeButton.addEventListener("click", () => {
+            dialog.close();
+          });
+        }
+
+        dialog.addEventListener("cancel", (event) => {
+          event.preventDefault();
+          dialog.close();
+        });
+
+        dialog.addEventListener("click", (event) => {
+          if (event.target === dialog) {
+            dialog.close();
+          }
+        });
+      }
+    </script>
     <script>
       (function () {
         const storageKey = "depthnote-theme";
