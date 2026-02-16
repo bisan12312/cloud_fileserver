@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MenuQR - Smart QR Ordering for Restaurants</title>
+    <meta name="description" content="MenuQR provides QR code-based digital menus and ordering systems for restaurants. Scan, order, done.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #FF6B35;
+            --primary-dark: #e55a25;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --text: #e0e0e0;
+            --text-muted: #a0a0b0;
+            --card-bg: #1e2a45;
+            --gradient: linear-gradient(135deg, #FF6B35, #ff8f5e);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: #fff; }
+
+        .nav-cta {
+            background: var(--gradient) !important;
+            color: #fff !important;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600 !important;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.08) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .highlight {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 580px;
+            margin: 0 auto 36px;
+        }
+
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover { transform: translateY(-2px); }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-primary:hover { box-shadow: 0 6px 30px rgba(255, 107, 53, 0.5); }
+
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-outline:hover { border-color: rgba(255, 255, 255, 0.5); }
+
+        /* QR MOCKUP */
+        .qr-demo {
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .phone-mockup {
+            width: 200px;
+            height: 380px;
+            background: var(--card-bg);
+            border-radius: 28px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .phone-notch {
+            width: 80px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-bottom: 16px;
+        }
+
+        .phone-screen {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .phone-screen .qr-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .phone-screen .screen-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .phone-screen .screen-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .phone-mockup.active {
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.2);
+        }
+
+        /* FEATURES */
+        .section {
+            padding: 100px 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 32px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 107, 53, 0.12);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* HOW IT WORKS */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 32px;
+            counter-reset: step;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 0 auto 16px;
+        }
+
+        .step h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* PRICING */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 36px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .pricing-card:hover { transform: translateY(-4px); }
+
+        .pricing-card.popular {
+            border-color: var(--primary);
+            box-shadow: 0 0 40px rgba(255, 107, 53, 0.15);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient);
+            color: #fff;
+            padding: 4px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .price span { font-size: 1rem; color: var(--text-muted); font-weight: 500; }
+
+        .price-period { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px; }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 28px;
+        }
+
+        .pricing-features li {
+            padding: 8px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pricing-features li::before {
+            content: '\2713';
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* LANGUAGES */
+        .lang-badges {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .lang-badge {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .lang-badge span { font-size: 1.3rem; }
+
+        /* DEMO */
+        .demo-section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .demo-section h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .demo-section p {
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        .demo-link {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .demo-link:hover { text-decoration: underline; }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer a { color: var(--primary); text-decoration: none; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav { padding: 12px 16px; }
+            .nav-links { display: none; }
+            .phone-mockup { width: 160px; height: 300px; }
+            .section { padding: 60px 16px; }
+            .demo-section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">Menu<span>QR</span></div>
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact" class="nav-cta">Get Started</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="badge">Built for Israeli Restaurants</div>
+        <h1>Digital Ordering.<br><span class="highlight">Zero Friction.</span></h1>
+        <p>Replace paper menus with a smart QR ordering system. Customers scan, browse, and order from their phone. Kitchen gets orders instantly.</p>
+        <div class="hero-buttons">
+            <a href="#contact" class="btn btn-primary">Start Free Trial</a>
+            <a href="https://sunsetgrill.depthnote.app/menu/?table=1" class="btn btn-outline" target="_blank">View Live Demo</a>
+        </div>
+        <div class="qr-demo">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="qr-icon">📱</div>
+                    <div class="screen-title">Scan QR</div>
+                    <div class="screen-label">Customer scans table code</div>
+                </div>
+            </div>
+            <div class="phone-mockup active">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="qr-icon">🍽</div>
+                    <div class="screen-title">Order</div>
+                    <div class="screen-label">Browse menu & place order</div>
+                </div>
+            </div>
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="qr-icon">👨‍🍳</div>
+                    <div class="screen-title">Kitchen</div>
+                    <div class="screen-label">Staff sees order in real-time</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="features">
+    <div class="section-header">
+        <h2>Everything Your Restaurant Needs</h2>
+        <p>A complete ordering system that runs in the browser. No app downloads required.</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📲</div>
+            <h3>QR Table Ordering</h3>
+            <p>Each table gets a unique QR code. Customers scan and instantly see your menu on their phone.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Real-Time Kitchen Display</h3>
+            <p>Orders appear on the kitchen dashboard the moment they're placed. No delays, no mistakes.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3>Custom Branding</h3>
+            <p>Your restaurant's name, colors, logo, and banner. It looks like your own app, not ours.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🌍</div>
+            <h3>Multi-Language</h3>
+            <p>Full support for English, Hebrew, and Arabic. Menus auto-adapt to RTL layouts.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Admin Dashboard</h3>
+            <p>Manage your menu, track orders, view active tables, and update settings from one panel.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📡</div>
+            <h3>Works Offline</h3>
+            <p>Progressive Web App technology means your menu loads fast, even with poor connectivity.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="languages">
+    <div class="section-header">
+        <h2>Multilingual by Default</h2>
+        <p>Serve every customer in their language. One tap to switch.</p>
+    </div>
+    <div class="lang-badges">
+        <div class="lang-badge"><span>🇬🇧</span> English</div>
+        <div class="lang-badge"><span>🇮🇱</span> עברית</div>
+        <div class="lang-badge"><span>🇸🇦</span> العربية</div>
+    </div>
+</section>
+
+<section class="section" id="how-it-works">
+    <div class="section-header">
+        <h2>How It Works</h2>
+        <p>Get your restaurant running with digital ordering in under 10 minutes.</p>
+    </div>
+    <div class="steps">
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Sign Up</h3>
+            <p>Create your restaurant profile, upload your menu, and set your branding.</p>
+        </div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>Print QR Codes</h3>
+            <p>Generate unique QR codes for each table. Print them and place on tables.</p>
+        </div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3>Receive Orders</h3>
+            <p>Customers scan, order from their phone, and your kitchen gets the order instantly.</p>
+        </div>
+        <div class="step">
+            <div class="step-number">4</div>
+            <h3>Manage & Grow</h3>
+            <p>Use the admin panel to update menus, track orders, and view analytics.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="pricing">
+    <div class="section-header">
+        <h2>Simple Pricing</h2>
+        <p>No hidden fees. Cancel anytime.</p>
+    </div>
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <h3>Starter</h3>
+            <div class="price">Free</div>
+            <div class="price-period">14-day trial</div>
+            <ul class="pricing-features">
+                <li>Up to 5 tables</li>
+                <li>Full menu management</li>
+                <li>Kitchen display</li>
+                <li>QR code generation</li>
+                <li>3 languages</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline" style="width:100%;display:block;text-align:center;">Start Trial</a>
+        </div>
+        <div class="pricing-card popular">
+            <div class="popular-badge">Most Popular</div>
+            <h3>Pro</h3>
+            <div class="price">₪149<span>/mo</span></div>
+            <div class="price-period">per restaurant</div>
+            <ul class="pricing-features">
+                <li>Unlimited tables</li>
+                <li>Custom branding</li>
+                <li>Real-time kitchen display</li>
+                <li>Admin dashboard</li>
+                <li>Priority support</li>
+                <li>Custom domain</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary" style="width:100%;display:block;text-align:center;">Get Started</a>
+        </div>
+        <div class="pricing-card">
+            <h3>Enterprise</h3>
+            <div class="price">Custom</div>
+            <div class="price-period">multi-location</div>
+            <ul class="pricing-features">
+                <li>Multiple locations</li>
+                <li>Dedicated support</li>
+                <li>Custom integrations</li>
+                <li>SLA guarantee</li>
+                <li>White-label option</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline" style="width:100%;display:block;text-align:center;">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="demo-section">
+        <h2>See It In Action</h2>
+        <p>Try our live demo restaurant. Scan the QR or click below to see the full customer experience.</p>
+        <a href="https://sunsetgrill.depthnote.app/menu/?table=1" class="btn btn-primary" target="_blank">Open Live Demo</a>
+        <br>
+        <a href="https://sunsetgrill.depthnote.app/kitchen/" class="demo-link" target="_blank">View Kitchen Dashboard &rarr;</a>
+    </div>
+</section>
+
+<section class="section" id="contact">
+    <div class="section-header">
+        <h2>Ready to Go Digital?</h2>
+        <p>Get in touch and we'll set up your restaurant in minutes.</p>
+    </div>
+    <div style="text-align:center;">
+        <a href="mailto:bisan1idriss@gmail.com" class="btn btn-primary">Contact Us</a>
+        <p style="margin-top:16px;color:var(--text-muted);font-size:0.9rem;">bisan1idriss@gmail.com</p>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 MenuQR. All rights reserved. | <a href="mailto:bisan1idriss@gmail.com">Contact</a></p>
+</footer>
+
+</body>
+</html>
